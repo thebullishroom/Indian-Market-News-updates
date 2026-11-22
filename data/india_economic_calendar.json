@@ -1,0 +1,26 @@
+{
+  "_note": "Major Indian economic events. Sources: RBI MPC schedule 2026-27 (press release 23 Mar 2026) and MoSPI Advance Release Calendar 2026-27 (updated Oct 2026). WPI dates follow DPIIT's usual 14th-of-month pattern (next working day if a weekend) and are marked 'usual date'. Add new dates here as they're announced; each entry needs date (YYYY-MM-DD) and event, time is optional.",
+  "events": [
+    {"date": "2026-11-28", "event": "IIP (industrial production) for Oct", "source": "MoSPI"},
+    {"date": "2026-11-30", "event": "GDP Q2 FY27 (Jul-Sep)", "source": "MoSPI"},
+    {"date": "2026-12-02", "event": "RBI MPC meeting begins (Dec 2-4)", "source": "RBI"},
+    {"date": "2026-12-04", "time": "10:00 AM", "event": "RBI monetary policy decision", "source": "RBI"},
+    {"date": "2026-12-12", "event": "CPI inflation for Nov", "source": "MoSPI"},
+    {"date": "2026-12-14", "time": "12:00 PM", "event": "WPI inflation for Nov (usual date)", "source": "DPIIT"},
+    {"date": "2026-12-28", "event": "IIP (industrial production) for Nov", "source": "MoSPI"},
+    {"date": "2027-01-07", "event": "GDP first advance estimates FY27", "source": "MoSPI"},
+    {"date": "2027-01-12", "event": "CPI inflation for Dec", "source": "MoSPI"},
+    {"date": "2027-01-14", "time": "12:00 PM", "event": "WPI inflation for Dec (usual date)", "source": "DPIIT"},
+    {"date": "2027-01-28", "event": "IIP (industrial production) for Dec", "source": "MoSPI"},
+    {"date": "2027-02-01", "event": "Union Budget 2027-28 (expected)", "source": "Govt"},
+    {"date": "2027-02-03", "event": "RBI MPC meeting begins (Feb 3-5)", "source": "RBI"},
+    {"date": "2027-02-05", "time": "10:00 AM", "event": "RBI monetary policy decision", "source": "RBI"},
+    {"date": "2027-02-12", "event": "CPI inflation for Jan", "source": "MoSPI"},
+    {"date": "2027-02-15", "time": "12:00 PM", "event": "WPI inflation for Jan (usual date)", "source": "DPIIT"},
+    {"date": "2027-02-26", "event": "GDP Q3 FY27 + second advance estimates", "source": "MoSPI"},
+    {"date": "2027-02-28", "event": "IIP (industrial production) for Jan", "source": "MoSPI"},
+    {"date": "2027-03-12", "event": "CPI inflation for Feb", "source": "MoSPI"},
+    {"date": "2027-03-15", "time": "12:00 PM", "event": "WPI inflation for Feb (usual date)", "source": "DPIIT"},
+    {"date": "2027-03-28", "event": "IIP (industrial production) for Feb", "source": "MoSPI"}
+  ]
+}
