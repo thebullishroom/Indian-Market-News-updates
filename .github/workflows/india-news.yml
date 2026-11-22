@@ -1,0 +1,80 @@
+name: India news
+
+on:
+  schedule:
+    # GitHub cron is UTC (IST = UTC + 5:30) and can run a few minutes late.
+    - cron: "0 3 * * 1-5"       # 8:30 AM IST  morning brief (+ overnight filings)
+    - cron: "45 3 * * 1-5"      # 9:15 AM IST  live alerts start
+    - cron: "*/15 4-9 * * 1-5"  # 9:30 AM - 3:15 PM IST, every 15 min
+    - cron: "0 10 * * 1-5"      # 3:30 PM IST  market close
+    - cron: "0 14 * * 1-5"      # 7:30 PM IST  evening check for after-market results
+    - cron: "30 12 * * 0"       # Sunday 6:00 PM IST  week-ahead preview
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "What to run"
+        type: choice
+        options: [morning, alerts, weekly]
+        default: morning
+      date:
+        description: "Date YYYY-MM-DD (leave blank for today)"
+        required: false
+      dry_run:
+        description: "Dry run (print in the log, don't post)"
+        type: boolean
+        default: true
+      force:
+        description: "Post the brief or preview again even if already posted"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: india-news
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NEWS_UNIVERSE: fno   # change to "all" to cover every listed company
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      # Remembers which filings were already sent, between runs
+      - uses: actions/cache/restore@v4
+        with:
+          path: state/india_news_state.json
+          key: news-state-${{ github.run_id }}
+          restore-keys: news-state-
+
+      - name: Run
+        env:
+          DISCORD_WEBHOOK_INDIA_NEWS: ${{ secrets.DISCORD_WEBHOOK_INDIA_NEWS }}
+        run: |
+          case "${{ github.event.schedule }}" in
+            "0 3 * * 1-5")  MODE=morning ;;
+            "30 12 * * 0")  MODE=weekly ;;
+            "")             MODE="${{ inputs.mode }}" ;;
+            *)              MODE=alerts ;;
+          esac
+          ARGS=""
+          if [ -n "${{ inputs.date }}" ]; then ARGS="$ARGS --date ${{ inputs.date }}"; fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "${{ inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
+          python india_news.py $MODE $ARGS
+
+      - uses: actions/cache/save@v4
+        if: always() && hashFiles('state/india_news_state.json') != ''
+        with:
+          path: state/india_news_state.json
+          key: news-state-${{ github.run_id }}-${{ github.run_attempt }}
